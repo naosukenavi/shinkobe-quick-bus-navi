@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="新神戸駅から有馬温泉・三田方面・神戸空港へ向かう人向けの超簡単バス案内です。">
+  <title>新神戸駅 バス 即！ナビ</title>
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#667085;
+      --line:#d9dee7;
+      --blue:#0b63ce;
+      --blue-soft:#eef6ff;
+      --orange:#f59e0b;
+      --orange-soft:#fff7df;
+      --red:#b42318;
+      --red-soft:#fff0ee;
+      --green:#15803d;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+      line-height:1.65;
+    }
+
+    .wrap{
+      width:min(760px,100%);
+      margin:0 auto;
+      padding:16px 14px 44px;
+    }
+
+    header{
+      text-align:center;
+      padding:18px 8px 10px;
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(1.75rem,7vw,2.6rem);
+      line-height:1.18;
+      letter-spacing:.02em;
+    }
+
+    .soku{
+      display:inline-block;
+      margin:0 .08em;
+      font-family:"Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;
+      font-weight:900;
+      font-size:1.12em;
+      transform:rotate(-2deg);
+      color:var(--red);
+    }
+
+    .subtitle{
+      margin:10px 0 0;
+      font-weight:700;
+      color:var(--muted);
+    }
+
+    .jump-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin:16px 0 20px;
+    }
+
+    .jump-grid a{
+      display:block;
+      padding:14px 16px;
+      border-radius:14px;
+      background:var(--card);
+      border:1px solid var(--line);
+      text-decoration:none;
+      color:var(--text);
+      font-weight:800;
+      box-shadow:0 2px 10px rgba(0,0,0,.04);
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      margin:16px 0;
+      box-shadow:0 3px 14px rgba(0,0,0,.045);
+    }
+
+    h2{
+      margin:0 0 14px;
+      font-size:1.35rem;
+      line-height:1.35;
+    }
+
+    h3{
+      margin:16px 0 8px;
+      font-size:1.08rem;
+    }
+
+    .route-box{
+      border-radius:14px;
+      padding:14px;
+      margin:10px 0;
+      background:var(--blue-soft);
+      border:1px solid #cfe5ff;
+    }
+
+    .route-box.alt{
+      background:#f7f4ff;
+      border-color:#ddd4ff;
+    }
+
+    .route-title{
+      font-weight:900;
+      margin-bottom:4px;
+    }
+
+    .route{
+      font-size:clamp(1.1rem,5vw,1.38rem);
+      font-weight:900;
+      line-height:1.6;
+      letter-spacing:.01em;
+    }
+
+    .must{
+      margin:10px 0 4px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:var(--red-soft);
+      color:var(--red);
+      font-weight:900;
+    }
+
+    .note{
+      margin:6px 0;
+      color:#374151;
+      font-size:.96rem;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      padding:12px 14px;
+      border-radius:12px;
+      background:var(--orange-soft);
+      font-weight:900;
+      text-align:center;
+    }
+
+    .urgent{
+      margin:0 0 14px;
+      padding:12px 14px;
+      border-radius:12px;
+      background:var(--red-soft);
+      color:var(--red);
+      font-weight:900;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      margin:12px 0 16px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:560px;
+      background:#fff;
+    }
+
+    th,td{
+      padding:11px 10px;
+      border-bottom:1px solid var(--line);
+      vertical-align:top;
+      text-align:left;
+    }
+
+    th{
+      background:#f8fafc;
+      font-weight:900;
+    }
+
+    td:first-child,th:first-child{
+      width:24%;
+      font-weight:800;
+    }
+
+    .cash{
+      color:var(--red);
+      font-weight:900;
+    }
+
+    .timetable{
+      border:1px dashed #aab4c3;
+      border-radius:14px;
+      padding:14px;
+      margin:12px 0;
+      background:#fafbfc;
+    }
+
+    .timetable-title{
+      font-weight:900;
+      margin-bottom:4px;
+    }
+
+    .placeholder{
+      color:var(--muted);
+      font-size:.94rem;
+    }
+
+    .date-note{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .warnings{
+      margin:14px 0;
+      padding:14px;
+      border-radius:14px;
+      background:#fffaf0;
+      border:1px solid #f4d08a;
+    }
+
+    .warnings p{
+      margin:6px 0;
+      font-weight:700;
+    }
+
+    .official-links,
+    .detail-links{
+      display:grid;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .btn{
+      display:block;
+      width:100%;
+      padding:13px 14px;
+      border-radius:12px;
+      text-decoration:none;
+      text-align:center;
+      font-weight:900;
+      border:1px solid transparent;
+    }
+
+    .btn.primary{
+      background:var(--blue);
+      color:#fff;
+    }
+
+    .btn.secondary{
+      background:#fff;
+      border-color:var(--blue);
+      color:var(--blue);
+    }
+
+    .btn.disabled{
+      background:#eef0f3;
+      color:#7b8491;
+      border-color:#d8dde5;
+      cursor:not-allowed;
+      pointer-events:none;
+    }
+
+    .section-label{
+      margin:16px 0 8px;
+      font-weight:900;
+    }
+
+    footer{
+      margin-top:22px;
+      text-align:center;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    @media (min-width:640px){
+      .jump-grid{grid-template-columns:repeat(3,1fr)}
+      .official-links,.detail-links{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>新神戸駅 バス <span class="soku">即！</span>ナビ</h1>
+      <p class="subtitle">有馬温泉・三田方面・神戸空港</p>
+    </header>
+
+    <nav class="jump-grid" aria-label="目的地から選ぶ">
+      <a href="#arima">♨ 有馬温泉</a>
+      <a href="#sanda">🚌 三田方面・北部方面</a>
+      <a href="#airport">✈ 神戸空港</a>
+    </nav>
+
+    <section id="arima" class="card">
+      <h2>♨ 有馬温泉</h2>
+
+      <div class="route-box">
+        <div class="route-title">JRバス</div>
+        <div class="route">今いる場所 → 1階ロータリー</div>
+      </div>
+
+      <div class="route-box alt">
+        <div class="route-title">神姫バス</div>
+        <div class="route">今いる場所 ↑ 2階 → ↓ 地階トンネル入口</div>
+      </div>
+
+      <p class="must">必須：まず2階へ上がってください。</p>
+      <p class="note">※神姫バスの地階のりばへは、2階を経由します。</p>
+    </section>
+
+    <section id="sanda" class="card">
+      <h2>🚌 三田方面・社／小野／三木方面・64系統</h2>
+
+      <div class="route-box">
+        <div class="route-title">1階ロータリーからの道順</div>
+        <div class="route">↑ 2階 → ↓ 地階トンネル入口</div>
+      </div>
+
+      <p class="must">必須：まず2階へ上がってください。</p>
+      <p class="note">※地階のりばへは、2階を経由します。</p>
+    </section>
+
+    <section id="airport" class="card">
+      <h2>✈ 神戸空港</h2>
+
+      <p class="urgent">フライト時刻に余裕がない方は、地下鉄＋ポートライナーの利用がおすすめです。</p>
+
+      <p class="lead">✈ 神戸空港へは2種類のバスがあります。<br>直通JRバス ／ 途中停車あり神姫バス</p>
+
+      <div class="table-wrap">
+        <table aria-label="神戸空港行きバス比較">
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>JRバス</th>
+              <th>神姫バス</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>行き先</td>
+              <td>神戸空港</td>
+              <td>神戸空港</td>
+            </tr>
+            <tr>
+              <td>運行</td>
+              <td>直通</td>
+              <td>途中停車あり</td>
+            </tr>
+            <tr>
+              <td>支払い</td>
+              <td class="cash">現金のみ<br>ICカード等不可</td>
+              <td>IC等</td>
+            </tr>
+            <tr>
+              <td>注意</td>
+              <td>本数少なめ</td>
+              <td>三宮止まりに注意</td>
+            </tr>
+            <tr>
+              <td>発着</td>
+              <td>生田川を渡った東端</td>
+              <td>発着場所に注意<br>ロータリー内約30mの範囲で発着</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note"><strong>JRバス：</strong>明石海峡大橋を渡って到着する便です。</p>
+      <p class="note"><strong>神姫バス：</strong>市外から到着する便です。</p>
+      <p class="note">そのため、道路状況により遅延が発生することがあります。</p>
+
+      <div class="timetable">
+        <div class="timetable-title">JRバス時刻表</div>
+        <div class="placeholder">時刻表は次の作業で追加します。</div>
+        <div class="date-note">※掲載時は「2026年○月○日現在」を明記します。</div>
+      </div>
+
+      <div class="timetable">
+        <div class="timetable-title">神姫バス時刻表</div>
+        <div class="placeholder">時刻表は次の作業で追加します。</div>
+        <div class="date-note">※掲載時は「2026年○月○日現在」を明記します。</div>
+      </div>
+
+      <div class="warnings">
+        <p>※道路状況により、時刻表どおりに到着しないことがあります。</p>
+        <p>※JRバス・神姫バスの到着順が予定と前後することがあります。</p>
+        <p>※JRバスは現金決済のみです。ICカード等は利用できません。事前にご確認ください。</p>
+      </div>
+
+      <div class="section-label">最新情報は公式サイトで確認</div>
+      <div class="official-links">
+        <span class="btn disabled" aria-disabled="true">JRバス公式（リンク準備中）</span>
+        <span class="btn disabled" aria-disabled="true">神姫バス公式（リンク準備中）</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>もっと詳しく見る</h2>
+      <div class="detail-links">
+        <span class="btn disabled" aria-disabled="true">B：簡易説明版（準備中）</span>
+        <a class="btn primary" href="https://naosukenavi.github.io/shinkobe-bus-navi/">A：新神戸駅前案内事典</a>
+      </div>
+    </section>
+
+    <footer>
+      文：NaoMi@Kobe
+    </footer>
+  </main>
+</body>
+</html>
