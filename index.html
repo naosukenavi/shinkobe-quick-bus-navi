@@ -277,6 +277,51 @@
       font-weight:900;
     }
 
+    .site-info{
+      margin-top:28px;
+      padding-top:20px;
+      border-top:1px solid var(--line);
+    }
+
+    .site-info h2{
+      margin-bottom:12px;
+    }
+
+    .site-info details{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:12px;
+      margin:9px 0;
+      overflow:hidden;
+    }
+
+    .site-info summary{
+      cursor:pointer;
+      font-weight:900;
+      padding:13px 14px;
+      list-style:none;
+    }
+
+    .site-info summary::-webkit-details-marker{display:none}
+
+    .site-info summary::after{
+      content:"＋";
+      float:right;
+      font-weight:500;
+    }
+
+    .site-info details[open] summary::after{content:"−"}
+
+    .site-info-body{
+      padding:0 14px 13px;
+      color:#374151;
+      font-size:.94rem;
+    }
+
+    .site-info-body p{
+      margin:8px 0;
+    }
+
     footer{
       margin-top:22px;
       text-align:center;
@@ -416,8 +461,45 @@
       </div>
     </section>
 
+    <section class="site-info" aria-labelledby="site-info-title">
+      <h2 id="site-info-title">このサイトについて</h2>
+
+      <details>
+        <summary>ご利用にあたって</summary>
+        <div class="site-info-body">
+          <p>本サイトは、現地確認をもとに個人で作成した案内サイトです。交通事業者・行政機関などが運営する公式サイトではありません。</p>
+          <p>運行時刻、乗り場、運賃、停車地、運行内容などは変更される場合があります。ご利用時には、現地表示と各交通事業者の最新の公式情報もご確認ください。</p>
+          <p>本サイトの情報を利用したことによって生じた損害について、運営者は責任を負いかねます。安全を最優先に、現地の係員・案内表示に従ってください。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>プライバシーについて</summary>
+        <div class="site-info-body">
+          <p>本サイトには、会員登録・位置情報取得機能はありません。サイトの利用状況を把握し、案内の改善に役立てるため、アクセス解析サービス「GoatCounter」を利用しています。GoatCounterでは、閲覧されたページ、参照元、ブラウザ・端末の種類、IPアドレスから推定される国・地域などの統計情報を確認しています。</p>
+          <p>また、Google検索での表示状況や検索パフォーマンスを確認するため、「Google Search Console」を利用しています。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>業務利用について</summary>
+        <div class="site-info-body">
+          <p>個人での閲覧・案内時の参照は自由です。</p>
+          <p>交通事業者・施設・団体等による掲示、配布、業務上の継続利用をご希望の場合は、更新・訂正等の対応のため、事前にご連絡ください。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>著作権・転載について</summary>
+        <div class="site-info-body">
+          <p>本サイト内の文章・写真・案内画像・構成の著作権は、特記のない限り NaoMi@Kobe に帰属します。無断転載・無断使用・再配布・加工しての公開はご遠慮ください。</p>
+          <p>交通事業者名、路線名、施設名などの名称・商標は、それぞれの権利者に帰属します。</p>
+        </div>
+      </details>
+    </section>
+
     <footer>
-      文：NaoMi@Kobe
+      © 2026 NaoMi@Kobe
     </footer>
   </main>
 </body>
