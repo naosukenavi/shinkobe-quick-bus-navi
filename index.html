@@ -333,7 +333,38 @@
       .jump-grid{grid-template-columns:repeat(3,1fr)}
       .official-links,.detail-links{grid-template-columns:repeat(2,1fr)}
     }
-  </style>
+  
+#airport-times{margin-top:24px;border-top:2px solid #d9dee7;padding-top:20px}
+.tt-draft{background:#fff4df;border:1px solid #d89825;padding:12px;border-radius:10px;font-weight:700}
+.tt-controls{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.tt-controls button{font:inherit;min-height:46px;padding:9px 16px;border:1px solid #0b63ce;border-radius:9px;background:white;color:#064fa6;cursor:pointer}
+.tt-controls button[aria-pressed=true]{background:#0b63ce;color:white}
+.tt-table{min-width:0;width:100%;table-layout:fixed;font-size:1rem}
+.tt-table th,.tt-table td{padding:10px 8px;border:1px solid #d9dee7}
+.tt-table th:first-child,.tt-table td:first-child{width:15%;text-align:center}
+.tt-table th:nth-child(2){color:#0759ae}.tt-table th:nth-child(3){color:#754300}
+.tt-table td:nth-child(2){background:#f3f8ff}.tt-table td:nth-child(3){background:#fffaf0}
+.tt-time{display:inline-block;white-space:nowrap;margin:2px 10px 2px 0;font-weight:800;font-variant-numeric:tabular-nums}
+.tt-meta,.tt-notes{font-size:.88rem}.tt-references{margin-top:16px;padding-top:8px;border-top:1px solid #d9dee7}.tt-references a{color:#0759ae;text-decoration:underline}.tt-notes{padding-left:1.3em}
+.tt-print-sheet{display:none}.tt-empty{color:#667085;font-size:.9rem}
+@media(max-width:420px){.tt-table th,.tt-table td{padding:8px 5px}.tt-time{font-size:.95rem;margin-right:7px}.tt-table th:first-child,.tt-table td:first-child{width:14%}}
+@media print{
+@page{size:A4 portrait;margin:12mm}
+body{background:white;font-size:10pt;color:black}
+.wrap{width:100%;padding:0;margin:0}
+main.wrap>*,#airport>*{display:none!important}
+main.wrap>#airport,#airport>#airport-times{display:block!important}
+#airport{border:0;box-shadow:none;padding:0;margin:0}
+#airport-times{border:0;padding:0;margin:0}
+.tt-controls,.tt-screen,.tt-editor{display:none!important}
+.tt-print-sheet{display:block;break-before:page}
+#tt-print-weekday{break-before:auto}
+.tt-table{font-size:10pt}.tt-table th,.tt-table td{padding:5px 7px}
+.tt-time{margin:0 8px 0 0}.tt-table tr{break-inside:avoid}
+.tt-draft{padding:5px;margin:5px 0}.tt-notes{font-size:8pt}h2{font-size:15pt;margin:0 0 8px}h3{font-size:12pt;margin:7px 0}
+}
+
+</style>
   <script data-goatcounter="https://naomi-kobe.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -428,17 +459,20 @@
       <p class="note"><strong>神姫バス：</strong>市外から到着する便です。</p>
       <p class="note">そのため、道路状況により遅延が発生することがあります。</p>
 
-      <div class="timetable">
-        <div class="timetable-title">JRバス時刻表</div>
-        <div class="placeholder">時刻表は次の作業で追加します。</div>
-        <div class="date-note">※掲載時は「2026年○月○日現在」を明記します。</div>
-      </div>
-
-      <div class="timetable">
-        <div class="timetable-title">神姫バス時刻表</div>
-        <div class="placeholder">時刻表は次の作業で追加します。</div>
-        <div class="date-note">※掲載時は「2026年○月○日現在」を明記します。</div>
-      </div>
+<section id="airport-times" aria-labelledby="times-title">
+<h2 id="times-title">新神戸駅発 → 神戸空港方面 時刻表</h2>
+<p class="tt-meta">掲載時刻は元の時刻表と照合済みです。撮影後の変更については現地表示・公式情報もご確認ください。</p>
+<p class="note">JR系と神姫を同じ時間帯で比較できます。時刻はすべて新神戸駅の発車予定時刻です。</p>
+<div class="tt-controls" role="group" aria-label="運行日を選択">
+<button type="button" data-day="weekday" aria-pressed="false">平日</button>
+<button type="button" data-day="holiday" aria-pressed="true">土日祝</button>
+<button type="button" id="print-times">印刷・PDF保存</button>
+</div>
+<div class="tt-screen" id="tt-screen"></div>
+<div class="tt-print-sheet" id="tt-print-weekday"></div>
+<div class="tt-print-sheet" id="tt-print-holiday"></div>
+<noscript>時刻表の表示にはJavaScriptを有効にしてください。</noscript>
+</section>
 
       <div class="warnings">
         <p>※道路状況により、時刻表どおりに到着しないことがあります。</p>
@@ -446,18 +480,12 @@
         <p>※JRバスは現金決済のみです。ICカード等は利用できません。事前にご確認ください。</p>
       </div>
 
-      <div class="section-label">最新情報は公式サイトで確認</div>
-      <div class="official-links">
-        <span class="btn disabled" aria-disabled="true">JRバス公式（リンク準備中）</span>
-        <span class="btn disabled" aria-disabled="true">神姫バス公式（リンク準備中）</span>
-      </div>
     </section>
 
     <section class="card">
       <h2>もっと詳しく見る</h2>
       <div class="detail-links">
-        <span class="btn disabled" aria-disabled="true">B：簡易説明版（準備中）</span>
-        <a class="btn primary" href="https://naosukenavi.github.io/shinkobe-bus-navi/">A：新神戸駅前案内事典</a>
+        <a class="btn primary" href="https://naosukenavi.github.io/shinkobe-bus-navi/">新神戸駅前案内事典</a>
       </div>
     </section>
 
@@ -502,5 +530,141 @@
       © 2026 NaoMi@Kobe
     </footer>
   </main>
+
+<script id="airport-timetable-data" type="application/json">{
+  "status": "提供写真から転記・利用者による全件照合済み",
+  "sources": {
+    "jr": "JR系：2026年10月18日撮影／掲示の改正日：2026年6月1日",
+    "shinki": "神姫：2026年6月26日撮影／掲示の改正日：2026年4月1日"
+  },
+  "jr": [
+    "08:03",
+    "09:03",
+    "10:03",
+    "11:03",
+    "12:15",
+    "13:03",
+    "14:03",
+    "15:15",
+    "16:03",
+    "17:15",
+    "18:15",
+    "19:03",
+    "20:03"
+  ],
+  "shinki": {
+    "weekday": [
+      "05:48",
+      "06:38",
+      "07:08",
+      "07:20",
+      "07:28",
+      "07:35",
+      "07:38",
+      "07:41",
+      "07:50",
+      "07:55",
+      "08:01",
+      "08:05",
+      "08:11",
+      "08:17",
+      "08:25",
+      "08:35",
+      "09:23",
+      "09:53",
+      "10:23",
+      "11:05",
+      "11:23",
+      "11:35",
+      "11:53",
+      "12:23",
+      "13:38",
+      "13:53",
+      "14:38",
+      "14:53",
+      "15:58",
+      "17:23",
+      "17:53"
+    ],
+    "holiday": [
+      "05:48",
+      "07:08",
+      "07:24",
+      "07:35",
+      "07:51",
+      "08:03",
+      "08:13",
+      "08:21",
+      "08:38",
+      "09:23",
+      "09:40",
+      "09:53",
+      "10:05",
+      "10:23",
+      "10:53",
+      "11:05",
+      "11:35",
+      "11:53",
+      "12:35",
+      "13:40",
+      "13:53",
+      "14:53",
+      "15:58",
+      "17:20",
+      "17:53"
+    ]
+  },
+  "notes": [
+    "土曜日は日祝ダイヤで運行。8月13〜15日・12月29〜31日も日祝ダイヤ（掲示の注記）。",
+    "※印は「空港エアバス前行き」（元の掲示の「エ」印）です。神戸空港ターミナル行きとは区別してご確認ください。",
+    "神姫の車両設備などの記号は、この簡易表には掲載していません。",
+    "道路状況により遅延や到着順の前後があります。JR系は現金のみ。"
+  ],
+  "airbus": {
+    "weekday": [
+      "07:08",
+      "07:20",
+      "07:35",
+      "07:50"
+    ],
+    "holiday": [
+      "07:24",
+      "07:51"
+    ]
+  }
+}</script>
+<script>
+(()=>{
+'use strict';
+// 時刻の変更は上の airport-timetable-data のみ。画面と印刷は共通データから作成。
+const data=JSON.parse(document.getElementById('airport-timetable-data').textContent);
+const labels={weekday:'平日',holiday:'土日祝（土曜も日祝ダイヤ）'};
+const escapeText=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+for(const times of [data.jr,...Object.values(data.shinki)]){
+ if(times!==null && (!Array.isArray(times)||times.some(t=>!/^([01]\d|2[0-3]):[0-5]\d$/.test(t))))throw Error('時刻データの形式を確認してください');
+}
+function cell(times,h,airbus=[]){
+ if(times===null)return '<span class="tt-empty">確認待ち</span>';
+ const found=times.filter(t=>Number(t.slice(0,2))===h);
+ return found.length?found.map(t=>'<span class="tt-time">'+escapeText(t)+(airbus.includes(t)?'※':'')+'</span>').join(''):'<span class="tt-empty">—</span>';
+}
+function render(day){
+ const rows=[];
+ for(let h=5;h<=20;h++)rows.push('<tr><th scope="row">'+h+'時</th><td>'+cell(data.jr,h)+'</td><td>'+cell(data.shinki[day],h,data.airbus[day])+'</td></tr>');
+ return '<h3>'+labels[day]+'</h3>'+(data.shinki[day]===null?'<p class="tt-draft">神姫の平日時刻は写真の再確認待ちです。空欄は運休を意味しません。</p>':'')+
+ '<table class="tt-table"><caption>新神戸駅 発車予定時刻</caption><thead><tr><th scope="col">時間帯</th><th scope="col">JR系<br>直通・現金のみ</th><th scope="col">神姫<br>途中停車あり</th></tr></thead><tbody>'+rows.join('')+'</tbody></table>'+
+ '<p class="tt-meta">転記元：'+escapeText(data.sources.jr)+' ／ '+escapeText(data.sources.shinki)+'</p>'+
+ '<ul class="tt-notes">'+data.notes.map(n=>'<li>'+escapeText(n)+'</li>').join('')+'</ul>'+ 
+ '<div class="tt-meta tt-references"><p>参考：<a href="https://timetable.nishinihonjrbus.co.jp/timeline/2-2-D-2Kobe.html" target="_blank" rel="noopener noreferrer">JR系公式時刻表（徳島→神戸方面）</a><br>徳島発の路線全体の時刻表です。新神戸駅の表示時刻は、現地掲示の発車時刻と異なります。</p>'+ 
+ '<p>参考：<a href="https://www.shinkibus.co.jp/highway/category/limousine/kobe.html" target="_blank" rel="noopener noreferrer">神姫バス公式・神戸空港線案内／時刻表</a></p></div>';
+}
+function select(day){document.getElementById('tt-screen').innerHTML=render(day);document.querySelectorAll('[data-day]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.day===day)));}
+document.querySelectorAll('[data-day]').forEach(b=>b.addEventListener('click',()=>select(b.dataset.day)));
+for(const day of Object.keys(labels))document.getElementById('tt-print-'+day).innerHTML='<h2>新神戸駅 → 神戸空港方面</h2>'+render(day);
+document.getElementById('print-times').addEventListener('click',()=>window.print());
+select('holiday');
+})();
+</script>
+
 </body>
 </html>
